@@ -19,12 +19,13 @@
       background-color: black;
       overflow: hidden;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
     }
 
     #canvas {
-      width: 100vmin;  /* menor lado da tela */
+      width: 100vmin;
       height: 100vmin;
       max-width: 500px;
       max-height: 500px;
@@ -34,41 +35,69 @@
     #hidden-assets {
       display: none;
     }
+
+    #mobile-controls {
+      margin-top: 10px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #mobile-controls button {
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      border-radius: 10px;
+      border: none;
+      background-color: #ffc107;
+      margin: 4px;
+      box-shadow: 0 0 6px #000;
+    }
+
+    @media (max-width: 768px) {
+      #mobile-controls {
+        display: flex;
+      }
+    }
   </style>
 </head>
 
 <body>
   <canvas id="canvas" width="500" height="500"></canvas>
-  
-  
 
+  <!-- Controles mobile -->
+  <div id="mobile-controls">
+    <button ontouchstart="setDirection('up')" onclick="setDirection('up')">⬆️</button>
+    <div>
+      <button ontouchstart="setDirection('left')" onclick="setDirection('left')">⬅️</button>
+      <button ontouchstart="setDirection('down')" onclick="setDirection('down')">⬇️</button>
+      <button ontouchstart="setDirection('right')" onclick="setDirection('right')">➡️</button>
+    </div>
+  </div>
+
+  <!-- Recursos escondidos -->
   <div id="hidden-assets">
     <img id="animation" src="animations.gif" width="140" height="20" alt="animation">
     <img id="ghosts" src="ghost.png" width="140" height="20" alt="ghosts">
   </div>
 
-
-
+  <!-- Scripts -->
   <script src="ghost.js"></script>
   <script src="pacman.js"></script>
   <script src="game.js"></script>
 
+  <!-- Função de controle -->
   <script>
-  document.querySelectorAll('#mobile-controls button').forEach(button => {
-    const direction = button.textContent.includes('⬆') ? 'up' :
-                      button.textContent.includes('⬇') ? 'down' :
-                      button.textContent.includes('⬅') ? 'left' : 'right';
-
-    button.addEventListener('click', () => setDirection(direction));
-    button.addEventListener('touchstart', (e) => {
-      e.preventDefault(); // evita clique duplicado
-      setDirection(direction);
-    });
-  });
-</script>
-
-
-
+    function setDirection(dir) {
+      if (typeof pacman === 'undefined') return;
+      switch (dir) {
+        case 'up': pacman.nextDirection = DIRECTION_UP; break;
+        case 'down': pacman.nextDirection = DIRECTION_BOTTOM; break;
+        case 'left': pacman.nextDirection = DIRECTION_LEFT; break;
+        case 'right': pacman.nextDirection = DIRECTION_RIGHT; break;
+      }
+    }
+  </script>
 </body>
 
 </html>
