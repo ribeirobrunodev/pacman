@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Pacman</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      background-color: black;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #canvas {
+      width: 100vmin;  /* menor lado da tela */
+      height: 100vmin;
+      max-width: 500px;
+      max-height: 500px;
+      display: block;
+    }
+
+    #hidden-assets {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="500" height="500"></canvas>
+  
+  
+
+  <div id="hidden-assets">
+    <img id="animation" src="animations.gif" width="140" height="20" alt="animation">
+    <img id="ghosts" src="ghost.png" width="140" height="20" alt="ghosts">
+  </div>
+
+
+
+  <script src="ghost.js"></script>
+  <script src="pacman.js"></script>
+  <script src="game.js"></script>
+
+  <script>
+  document.querySelectorAll('#mobile-controls button').forEach(button => {
+    const direction = button.textContent.includes('⬆') ? 'up' :
+                      button.textContent.includes('⬇') ? 'down' :
+                      button.textContent.includes('⬅') ? 'left' : 'right';
+
+    button.addEventListener('click', () => setDirection(direction));
+    button.addEventListener('touchstart', (e) => {
+      e.preventDefault(); // evita clique duplicado
+      setDirection(direction);
+    });
+  });
+</script>
+
+
+
+</body>
+
+</html>
